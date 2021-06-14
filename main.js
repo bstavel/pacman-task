@@ -1939,6 +1939,8 @@ var PACMAN = (function (handle) {
         user.loseLife();
         if (user.getLives() > 0 && user.getTrials() > 0) {
             startLevel();
+        } else if (user.getLives() === 0) {
+            startNewGame();
         } else if (user.getTrials()) {
             setState(PLAYING);
         }
@@ -2138,7 +2140,7 @@ var PACMAN = (function (handle) {
             map.draw(ctx);
             window.postMessage(["final_score", average_score_final], "*");
             window.postMessage("next", "*");
-        } else if ((user.getTrials() % 20) === 0 && (user.getTrials() < 40 && state !== PAUSE && Pacman.pause_done == 0)){
+        } else if ((user.getTrials() % 20) === 0 && (user.getTrials() < 40 && state !== PAUSE && Pacman.pause_done === 0)){
             Pacman.scoreArray.length = 0;
             setState(BREAK);
         }
