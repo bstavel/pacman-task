@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html>
 <script
 src="https://dl.dropbox.com/s/k06eythygd9tgzn/modernizr-1.5.min.js?dl=1"
 type="text/javascript"></script>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Pacman</title>
-
-    <style type="text/css">
+<style type="text/css">
         @font-face {
             font-family: 'BDCartoonShoutRegular';
             src: url('https://dl.dropbox.com/s/j4rq88zlnjhln56/BD_Cartoon_Shout-webfont%20%281%29.ttf?dl=1') format('truetype');
@@ -18,7 +12,8 @@ type="text/javascript"></script>
         #pacman {
             height:579px;
             width:440px;
-            margin:20px auto;
+            margin:5px auto;
+            align-items: center;
         }
         #shim {
             font-family: BDCartoonShoutRegular;
@@ -29,35 +24,28 @@ type="text/javascript"></script>
           position: fixed;
           right: 30px;
           bottom: 30px;
-          width: 30px;
-          height: 30px;
+          width: 60px;
+          height: 60px;
         }
         h1 {
           font-family: BDCartoonShoutRegular;
           text-align:center;
           color: white;
-        }
-        body {
-          width:440px;
-          margin:0px auto;
-          font-family:sans-serif;
-          background: black;
+          font-size: 80%;
         }
         a { text-decoration:none; }
-    </style>
-
-</head>
-
-<body>
-
+</style>
 <div id="shim">shim for font face</div>
 
 <h1>Pacman</h1>
 
 <div id="pacman"></div>
 <div id="syncSquare"></div>
-<script src="main.js"></script>
+<script
+src="https://dl.dropbox.com/s/z9yvwrirxmdmd42/main.js?dl=1"
+type="text/javascript"></script>
 <script>
+
     var el = document.getElementById("pacman");
 
    if (Modernizr.canvas && Modernizr.localstorage &&
@@ -68,6 +56,3 @@ type="text/javascript"></script>
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 </script>
-
-</body>
-</html>

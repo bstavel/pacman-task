@@ -1,64 +1,45 @@
-<!DOCTYPE html>
-<html>
 <script
 src="https://dl.dropbox.com/s/k06eythygd9tgzn/modernizr-1.5.min.js?dl=1"
 type="text/javascript"></script>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Pacman</title>
-
-    <style type="text/css">
+<style type="text/css">
         @font-face {
             font-family: 'BDCartoonShoutRegular';
             src: url('https://dl.dropbox.com/s/j4rq88zlnjhln56/BD_Cartoon_Shout-webfont%20%281%29.ttf?dl=1') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
-        #pacman {
+        #pacman-practice {
             height:579px;
             width:440px;
-            margin:20px auto;
+            margin:5px auto;
+            align-items: center;
         }
         #shim {
             font-family: BDCartoonShoutRegular;
             position:absolute;
             visibility:hidden
         }
-        #syncSquare {
-          position: fixed;
-          right: 30px;
-          bottom: 30px;
-          width: 30px;
-          height: 30px;
-        }
+
         h1 {
           font-family: BDCartoonShoutRegular;
           text-align:center;
           color: white;
-        }
-        body {
-          width:440px;
-          margin:0px auto;
-          font-family:sans-serif;
-          background: black;
+          font-size: 80%;
         }
         a { text-decoration:none; }
-    </style>
-
-</head>
-
-<body>
-
+</style>
 <div id="shim">shim for font face</div>
 
 <h1>Pacman</h1>
 
-<div id="pacman"></div>
-<div id="syncSquare"></div>
-<script src="main.js"></script>
+<div id="pacman-practice"></div>
+<script
+src="https://dl.dropbox.com/s/3ddha1rw164grdn/practice_main.js?dl=1"
+type="text/javascript"></script>
 <script>
-    var el = document.getElementById("pacman");
+
+    var el = document.getElementById("pacman-practice");
 
    if (Modernizr.canvas && Modernizr.localstorage &&
         Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
@@ -68,6 +49,3 @@ type="text/javascript"></script>
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 </script>
-
-</body>
-</html>

@@ -58,29 +58,12 @@ Pacman.averageScore = [];
 Pacman.lives = null;
 Pacman.finished_trial_audio = new Audio('https://www.dropbox.com/s/5u7krufvmodzogv/256112__nckn__pleasant-done-notification_short.wav?dl=1');
 Pacman.die_audio = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
-Pacman.orig_startingPositions = [
+Pacman.startingPositions = [
     [1,160,80,2.5,4,6,5,3   ],
-    [2,120,40,5,3,6,2.5,4   ],
+    [20,70,150,5,2.5,3,4,6  ],
     [3,140,null,5,2.5,6,3,4 ],
-    [4,150,70,3,6,4,2.5,5   ],
-    [5,80,160,2.5,4,6,5,3  ],
-    [6,80,160,6,5,3,4,2.5   ],
-    [7,40,null,4,3,2.5,5,6  ],
-    [8,130,50,4,6,3,5,2.5   ],
-    [9,30,110,5,3,6,2.5,4   ],
-    [10,140,60,5,2.5,3,4,6  ],
-    [11,60,140,2.5,6,5,4,3  ],
-    [12,50,130,5,3,6,2.5,4  ],
-    [13,110,30,5,2.5,6,3,4  ],
-    [14,120,null,3,6,4,2.5,5],
-    [15,60,null,2.5,4,6,5,3 ],
-    [16,110,30,5,2.5,6,3,4  ],
-    [17,160,80,6,5,3,4,2.5  ],
-    [18,30,110,4,6,3,5,2.5  ],
-    [19,40,120,5,6,3,4,2.5  ],
-    [20,70,150,5,2.5,3,4,6  ]
+    [18,30,110,4,6,3,5,2.5  ]
 ];
-Pacman.startingPositions = Pacman.orig_startingPositions.sort(() => Math.random() - 0.5);
 Pacman.survivalProbabilities = [
     {
         "CDF": 1,
@@ -488,23 +471,6 @@ Pacman.survivalProbabilities = [
     }
 ]
 
-
-class SyncSquare {
-  constructor() {
-    this.el = document.querySelector('#syncSquare');
-  }
-  white() {
-    this.setColor('white');
-  }
-  black() {
-    this.setColor('black');
-  }
-  setColor(c) {
-    this.el.style.backgroundColor = c;
-  }
-}
-const syncSquare = new SyncSquare();
-
 Pacman.User = function (game, map) {
 
     var
@@ -514,8 +480,8 @@ Pacman.User = function (game, map) {
         lives     = null,
         trials_2 = null
         trials = null,
-        score     = 5,
         eatenCount = 0,
+        score     = 5,
         keyMap    = {},
         over = true,
         position = null;
@@ -536,29 +502,8 @@ Pacman.User = function (game, map) {
         return score;
     };
 
-    function getPayout(score) {
-        const n = 3000;
-        const arr = [...Array(n).keys()];
-        let lambda = arr.indexOf(score);
-        let xMax = 9;
-        let xMin = 4;
-        let yMax = 3000;
-        let yMin = 500;
-        const retArr = [];
-        for (const i in arr) {
-            let percent = (i - yMin) / (yMax - yMin);
-            let outputX = percent * (xMax - xMin) + xMin;
-            retArr.push(Math.round(outputX));
-        }
-        if (retArr[lambda] >= 0) {
-            return(retArr[lambda]);
-        } else {
-            return(0);
-        }
-    }
-
     function loseLife() {
-        window.postMessage(["Trial " + getTrials2(),
+        window.postMessage(["Practice " + getTrials2(),
             JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
                 Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
                 Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:getLives()})], "*");
@@ -573,11 +518,12 @@ Pacman.User = function (game, map) {
             Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
             let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
             let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
-            let final_payout = getPayout(average_score_final);
-            //map.draw(ctx); // HACK cgc: removing b/c this seems to overwrite the dialog?
-            // cgc: However, "press arrow to continue" isn't quite right if we're also goign to clearInterval...
-            window.postMessage(["final_payout", final_payout], "*");
-            window.postMessage(["final_score", average_score_final], "*");
+            if(average_score_final > 150){
+              pass_practice = 1;
+            } else {
+              pass_practice = 0;
+            }
+            window.postMessage(["pass_practice", pass_practice], "*");
             window.postMessage("next", "*");
         }
     };
@@ -613,7 +559,7 @@ Pacman.User = function (game, map) {
     function initUser() {
         score = 0;
         if (lives !== 0) {
-            trials = 40;
+            trials = 4;
             trials_2 = 1;
         }
         lives = 3;
@@ -630,8 +576,8 @@ Pacman.User = function (game, map) {
 
     function resetPosition() {
         Pacman.randomTrial = (getTrials2() -1) % 20;
-        if (Pacman.randomTrial === 20) {
-            Pacman.randomTrial = 19;
+        if (Pacman.randomTrial === 4) {
+            Pacman.randomTrial = 3;
         }
         console.log("Trial: " + Pacman.randomTrial);
         position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
@@ -639,7 +585,6 @@ Pacman.User = function (game, map) {
         direction = NONE;
         due = NONE;
         eatenCount = 0;
-
     };
 
     function reset() {
@@ -735,7 +680,7 @@ Pacman.User = function (game, map) {
             Pacman.escapeUserPos = position.x;
             Pacman.escaped = true;
             console.log("Escaped");
-            window.postMessage(["Trial " + getTrials2(),
+            window.postMessage(["Practice " + getTrials2(),
                 JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
                     Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
                     Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:getLives()})], "*");
@@ -833,7 +778,6 @@ Pacman.User = function (game, map) {
         };
 
     };
-
     function getPosition() {
         return position;
     };
@@ -2055,26 +1999,6 @@ var PACMAN = (function (handle) {
         map.drawBlock(Math.ceil(100/10), Math.ceil(pos.x/10), ctx);
     }
 
-    function getPayout(score) {
-        const n = 3000;
-        const arr = [...Array(n).keys()];
-        let lambda = arr.indexOf(score);
-        let xMax = 9;
-        let xMin = 4;
-        let yMax = 3000;
-        let yMin = 500;
-        const retArr = [];
-        for (const i in arr) {
-            let percent = (i - yMin) / (yMax - yMin);
-            let outputX = percent * (xMax - xMin) + xMin;
-            retArr.push(Math.round(outputX));
-        }
-        if (retArr[lambda] >= 0) {
-            return(retArr[lambda]);
-        } else {
-            return(0);
-        }
-    }
     function mainDraw() {
 
         var diff, u, i, len, nScore;
@@ -2161,13 +2085,6 @@ var PACMAN = (function (handle) {
     // }
 
     function mainLoop() {
-        // At the top of this main loop, we set the sync square's attributes based on the current state.
-        // HACK doesn't seem to be quite right for when you complete a level. But does seem well-synced for initial render.
-        if(state == PLAYING) {
-          syncSquare.white()
-        } else {
-          syncSquare.black();
-        }
 
         // When we've completed the task, endtrials is set to true, so we clear our main loop.
         if (endtrials) {
@@ -2194,17 +2111,17 @@ var PACMAN = (function (handle) {
             Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
             let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
             let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
-            let final_payout = getPayout(average_score_final);
-            dialog("You earned a bonus of $" + final_payout + "!", "14px Monaco");
-            //map.draw(ctx); // HACK cgc: removing b/c this seems to overwrite the dialog?
-            // cgc: However, "press arrow to continue" isn't quite right if we're also goign to clearInterval...
-            window.postMessage(["final_payout", final_payout], "*");
-            window.postMessage(["final_score", average_score_final], "*");
+            dialog("Final Score: " + average_score_final, "14px Monaco");
+            if(average_score_final > 150){
+              pass_practice = 1;
+            } else {
+              pass_practice = 0;
+            }
+            window.postMessage(["pass_practice", pass_practice], "*");
             window.postMessage("next", "*");
         } else if (user.getTrials() === 0 && !endtrials && Pacman.death_check === true) {
             endtrials = true;
         } else if ((user.getTrials() % 20) === 0 && (user.getTrials() < 40 && state !== PAUSE && Pacman.pause_done == 0)){
-            user.addScore(-1 * user.theScore());
             Pacman.scoreArray.length = 0;
             setState(BREAK);
         }
@@ -2401,7 +2318,6 @@ var PACMAN = (function (handle) {
         "collided" : collided,
         "getWholeUserPos" : getWholeUserPos,
         "getWholeGhostPos" : getWholeGhostPos,
-        "getPayout" : getPayout,
         "dialog" : dialog,
         "endtrials" : endtrials
     };
