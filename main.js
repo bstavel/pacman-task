@@ -512,8 +512,8 @@ Pacman.User = function (game, map) {
         eaten     = null,
         due       = null,
         lives     = null,
-        trials_2 = null
-        trials = null,
+        trials_2  = null
+        trials    = null,
         score     = 5,
         biscuit1 = false,
         biscuit2 = false,
@@ -1500,17 +1500,17 @@ Pacman.Ghost = function (game, map, colour) {
                     }
                 }
                 console.log("bob count: " + bobCount);
-                // if (Pacman.startingPositions[Pacman.randomTrial][2] === 20) {
-                //     if (bobCount >= 8) {
-                //         due = oppositeDirection(due);
-                //         direction = oppositeDirection(direction);
-                //         position = getNewCoord(due, position);
-                //         bobCount = 0;
-                //         return {
-                //             "new" : position,
-                //             "old" : oldPos
-                //         }
-                //     }
+                if (Pacman.startingPositions[Pacman.randomTrial][2] === 20) {
+                    if (bobCount >= 8) {
+                        due = oppositeDirection(due);
+                        direction = oppositeDirection(direction);
+                        position = getNewCoord(due, position);
+                        bobCount = 0;
+                        return {
+                            "new" : position,
+                            "old" : oldPos
+                        }
+                    }
                 }
                 if (bobCount >= 10) {// && Pacman.startingPositions[Pacman.randomTrial][2] !== 20) {
                     due = oppositeDirection(due);
@@ -2286,7 +2286,7 @@ var PACMAN = (function (handle) {
             window.postMessage("next", "*");
         } else if (user.getTrials() === 0 && !endtrials && Pacman.death_check === true) {
             endtrials = true;
-        } else if ((user.getTrials() % 20) === 0 && (user.getTrials() < 40 && state !== PAUSE && Pacman.pause_done == 0)){
+        } else if ((user.getTrials() % 20) === 0 && (user.getTrials() < 40 && state !== PAUSE && Pacman.pause_done === 0)){
             Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
             user.addScore(-1 * user.theScore());
             user.resetLives();
