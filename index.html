@@ -67,6 +67,40 @@ type="text/javascript"></script>
         el.innerHTML = "Sorry, needs a decent browser<br /><small>" +
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
+
+    // NOTE this should only run when _off_ qualtrics.
+    var OFFLINE_DATA_TRACKER = [];
+    window.addEventListener("message", (event) => {
+      if (event.data == 'pause') {
+        // Now we download all the data thus far.
+        downloadData(OFFLINE_DATA_TRACKER);
+      } else {
+        OFFLINE_DATA_TRACKER.push(event.data);
+      }
+    }, false);
+
+    function downloadData(data) {
+      // from https://codepen.io/vidhill/pen/bNPEmX
+
+      // Get data ready
+      const blob = new Blob([JSON.stringify(data)], {type: "octet/stream"});
+      const url = window.URL.createObjectURL(blob);
+
+      // Make and add button to page
+      var button = document.createElement('a');
+      document.body.appendChild(button);
+      button.href = url;
+      button.target = '_blank';
+      button.download = 'pacman-task-data.json';
+
+      // Download
+      button.click();
+
+      // Clean things up
+      URL.revokeObjectURL(url);
+      document.body.removeChild(button);
+    }
+
 </script>
 
 </body>

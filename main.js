@@ -579,7 +579,7 @@ Pacman.User = function (game, map) {
             JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray, Direction:Pacman.directionArray,
                 Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
                 Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:getLives(), TrialType:getTrialType()})], "*");
-        syncSquare.black()        
+        syncSquare.black()
         lives -= 1;
         trials--;
         trials_2++;
@@ -2289,6 +2289,7 @@ var PACMAN = (function (handle) {
             Pacman.scoreArray.length = 0;
             Pacman.startingPositions = Pacman.orig_startingPositions.sort(() => Math.random() - 0.5);
             setState(BREAK);
+            window.postMessage("pause", "*");
         }
 
         if (state === PLAYING) {
