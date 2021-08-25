@@ -82,6 +82,7 @@ Pacman.orig_startingPositions = [
   [20,70,null,6,3,6,3,6,null]
 ];
 Pacman.startingPositions = Pacman.orig_startingPositions.sort(() => Math.random() - 0.5);
+// Pacman.startingPositions = Pacman.orig_startingPositions;
 Pacman.survivalProbabilities = [
     {
         "CDF": 1,
@@ -684,8 +685,12 @@ Pacman.User = function (game, map) {
         }
         console.log("Trial: " + Pacman.randomTrial);
         console.log("Trial Type: " + getTrialType());
-        position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
-        //console.log("User start: " + position.x);
+        var jitters = [-7, -4, 0, 4, 7];
+        var jitter = jitters[Math.floor(Math.random() * jitters.length)];
+        var pacman_starting_location = (Pacman.startingPositions[Pacman.randomTrial][1] + jitter);
+        console.log("pac start: " + pacman_starting_location);
+        position = {"x": pacman_starting_location, "y": 100};
+        console.log("User start: " + position.x);
         Pacman.attackVar1 = false;
         direction = NONE;
         due = NONE;
@@ -725,7 +730,8 @@ Pacman.User = function (game, map) {
 
 
     function onWholeSquare(x) {
-        return x % 10 === 0;
+        // return x % 10 === 0;
+        return true;
     };
 
     function pointToCoord(x) {
@@ -768,8 +774,14 @@ Pacman.User = function (game, map) {
             oldPosition = position,
             block       = null;
 
+        console.log("old pos: " + oldPosition.x);
         if (due !== direction) {
             npos = getNewCoord(due, position);
+              console.log("npos1 " + npos.x);
+              console.log("due " + due);
+              console.log("dir " + direction);
+              console.log("on square " + onGridSquare(position));
+              console.log("plane " + isOnSamePlane(due, direction));
 
             if (isOnSamePlane(due, direction) ||
                 (onGridSquare(position) &&
@@ -779,6 +791,7 @@ Pacman.User = function (game, map) {
                 npos = null;
             }
         }
+        console.log("npos " + npos);
         if ( position.x < 12 && Pacman.startingPositions[Pacman.randomTrial][1] > 95 && direction === LEFT) {
             position.x = 12;
 
