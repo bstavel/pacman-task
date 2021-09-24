@@ -518,17 +518,6 @@ Pacman.User = function (game, map) {
         if (trials === 0) {
             Pacman.death_check = true;
 
-           // map.draw(ctx);
-            //user.trials = 20;
-            Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
-            let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
-            let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
-            if(average_score_final > 150){
-              pass_practice = 1;
-            } else {
-              pass_practice = 0;
-            }
-            window.postMessage(["pass_practice", pass_practice], "*");
             window.postMessage("next", "*");
         }
     };
@@ -2162,11 +2151,10 @@ var PACMAN = (function (handle) {
             let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
             let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
             if(average_score_final > 80){
-              dialog("Great job! Please return to the instructions", "12px Monaco");
+              dialog("Great job! Please wait...", "12px Monaco");
             } else {
               dialog("Please refresh the page for more practice!", "12px Monaco");
             }
-            window.postMessage(["pass_practice", pass_practice], "*");
             document.removeEventListener("keydown", keyDown, true);
             document.removeEventListener("keypress", keyPress, true);
             window.postMessage("next", "*");
