@@ -20,7 +20,7 @@ There are two versions of the game. The first is implemented for a large cohort 
 Currently, the instructions and questionaire are separate from the rest of the task. Hoping to fix that soon!
 
 1) Open the instructions powerpoint and walk the patient through the instructions
-2) Use the _Launcher_ in the lab Dropbox, or run `pacman_game.pay` in python3
+2) Use the _Launcher_ in the lab Dropbox, or run `pacman_game.py` in python3
 3) Enter subject ID and follow instructions in the terminal
 4) Practice will open, complete, prompt to repeat practice if necessary, then open the main trials
 5) After main trials complete (~20 minutes), questionaire will open
