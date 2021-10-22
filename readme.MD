@@ -68,7 +68,7 @@ If you encounter any problems, my contact information is saved in  `~/Dropbox/Br
 
 #### Method 3
 
-1) Open Chrome and navigate here: Download the extension.
+1) Double click `~/Dropbox/Brooke/pacman_iEEG/extension_1_5_0_0.crx`. This should hopefully disable the download bar.
 2) Open the instructions powerpoint (either `~/Dropbox/Brooke/pacman_iEEG/Pacman_Instructions.pdf` or `~/Dropbox/Brooke/pacman_iEEG/Pacman_Instructions.pptx`, whichever is easier) and walk the patient through the instructions. Answer all questions the patient may have.
 3) Tell the patient they will do a short practice. Then double-click to open the file `~/Dropbox/Brooke/pacman_iEEG/index_practice.html`
 8) There will be four practice trials. After the last trial, ask if the patient would like to repeat the practice. If not close the window.
