@@ -57,8 +57,8 @@ Pacman.eatenArray = [];
 Pacman.scoreArray = [];
 Pacman.averageScore = [];
 Pacman.lives = null;
-Pacman.finished_trial_audio = new Audio('https://www.dropbox.com/s/5u7krufvmodzogv/256112__nckn__pleasant-done-notification_short.wav?dl=1');
-Pacman.die_audio = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
+Pacman.finished_trial_audio = new Audio('audio/256112__nckn__pleasant-done-notification_short.wav');
+Pacman.die_audio = new Audio('audio/341820__ianstargem__screechy-alarm.wav');
 Pacman.orig_startingPositions = [
   [1,150,70,6,3,6,3,6,2],
   [2,130,50,3,6,3,6,3,2],
